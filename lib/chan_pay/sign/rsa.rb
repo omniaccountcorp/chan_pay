@@ -12,7 +12,9 @@ module ChanPay
       def self.verify?(key, hash, sign)
         content = link_hash(hash)
         rsa = OpenSSL::PKey::RSA.new(key)
-        rsa.verify('sha1', Base64.strict_decode64(sign), content)
+        result = rsa.verify('sha1', Base64.strict_decode64(sign), content)
+        puts "\nrsa verify：#{result}; 回过来的 sign 为：#{sign}\n" unless result
+        result
       end
 
       private

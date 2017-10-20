@@ -1,16 +1,17 @@
 # coding: utf-8
 
-# 4.4.2.18 快捷代扣请求接口（API）
+# 4.4.2.7 直接支付请求接口（API）
 
 module ChanPay
   module Api
-    module QuickPay
+    module SmsPayRequest
 
-      SERVICE_NAME = 'nmg_api_quickpay_withhold'
+      SERVICE_NAME = 'nmg_zft_api_quick_payment'
 
-      # 快捷代扣
+      # 快捷直接支付请求接口
       #
       # @param flow_id [String] 订单号（需要保证唯一）
+      # @param user_id [String] 唯一用户识别号，比如数据库 ID（但要考虑分布式）
       # @param card_id [String] 支付银行卡号
       # @param identity_id [String] 身份证号
       # @param true_name [String] 真实姓名
@@ -19,13 +20,15 @@ module ChanPay
       #
       # @return [Hash] 返回结果集
       #
-      def quick_pay(flow_id, card_id, identity_id, true_name, phone, money)
-
+      def sms_pay_request(flow_id, user_id,
+                          card_id, identity_id, true_name, phone, money)
         params = {
           :TrxId => flow_id.to_s, # 最长 32 位唯一订单号
           :OrdrName => '快捷充值', # 商品名称
+          :MerUserId => user_id, # 商户网站用户唯一标识，不建议手机号
           :SellerId => @seller_id, # 畅捷提供的商户编号
           :ExpiredTime => '90m', # 订单有效期
+          :BkAcctTp => '01', # 卡类型
           :BkAcctNo => card_id, # 卡号，需要 rsa 加密
           :IDTp => '01', # 证件类型，01 身份证
           :IDNo => identity_id, # 证件号，rsa 加密
@@ -71,6 +74,6 @@ module ChanPay
         res
       end
 
-    end # module QuickPay
-  end # module Api
-end # module Chanpay
+    end
+  end
+end

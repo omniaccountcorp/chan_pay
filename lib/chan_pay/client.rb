@@ -7,6 +7,10 @@ module ChanPay
 
     include ChanPay::Api::QuickPay
     include ChanPay::Api::QueryOrder
+    include ChanPay::Api::QueryBalance
+    include ChanPay::Api::SmsPayRequest
+    include ChanPay::Api::SmsPayConfirm
+    include ChanPay::Api::SmsPayResend
 
     def initialize(options_arg)
       options = Utils.symbolize_keys(options_arg)

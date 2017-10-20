@@ -3,10 +3,20 @@ require 'spec_helper'
 
 describe ChanPay do
   let(:server_url) do
-    'https://pay.chanpay.com/mag-unify/gateway/receiveOrder.do?'
+    'https://pay.chanpay.com/mag-unify/gateway/receiveOrder.do'
+  end
+
+  let(:partner_id) do
+    '200001280051' # 测试
+  end
+
+  let(:seller_id) do
+    '200001280051' # 测试
   end
 
   let(:private_key) do
+    # 测试
+
     <<-EOF
 -----BEGIN RSA PRIVATE KEY-----
 MIICXgIBAAKBgQDM6kPXW49A4ibon0D0gaxbmHrQISJ+k3hb7Z8qhMJ3vb337K/O
@@ -24,8 +34,6 @@ ATGFI319vLTzvJbBKRHULQJAJRxg6I9m9u+uaRcxI5SKJapb38HBCwHVYvrSaKDi
 MCPLO09hpYJyUTiof7RWaJEruCaANCid/VTxds0wxjWZPQ==
 -----END RSA PRIVATE KEY-----
     EOF
-
-
   end
 
   let(:public_key) do
@@ -42,7 +50,7 @@ MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDPq3oXX5aFeBQGf3Ag/86zNu0VICXmkof85r+DDL46
 
   it '快捷代扣失败' do
     client = ChanPay::Client.new(
-      partner_id: '200001280051',
+      partner_id: partner_id,
       seller_id: '200001280051',
       server_url: server_url,
       private_key: private_key,
@@ -53,8 +61,6 @@ MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDPq3oXX5aFeBQGf3Ag/86zNu0VICXmkof85r+DDL46
                               '430000000000000', 'identity_id',
                               'XXXXXX', '1380000000', 0.06)
 
-    puts result
-
     expect(result[:result]).to eq('F')
     expect(result[:ret_code]).to eq('ILLEGAL_ARGUMENT')
   end
@@ -64,13 +70,60 @@ MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDPq3oXX5aFeBQGf3Ag/86zNu0VICXmkof85r+DDL46
 
   it '查询订单情况' do
     client = ChanPay::Client.new(
-      partner_id: '200001280051',
-      seller_id: '200001280051',
+      partner_id: partner_id,
+      seller_id: seller_id,
       server_url: server_url,
       private_key: private_key,
       public_key: public_key,
     )
 
-    result = client.query_order('1508312631562', '101150831263182558262')
+    result = client.query_order((Time.now.to_f * 1000).to_i, 'xxx')
+
+    expect(result[:result]).to eq('P')
+  end
+
+  it '查询帐户余额' do
+    client = ChanPay::Client.new(
+      partner_id: partner_id,
+      seller_id: seller_id,
+      server_url: server_url,
+      private_key: private_key,
+      public_key: public_key,
+    )
+
+    result = client.query_balance((Time.now.to_f * 1000).to_i)
+
+    expect(result[:result]).to eq('S')
+    expect(result[:balance] >= 0)
+  end
+
+  it '短信充值'
+
+  it '短信确认' do
+    client = ChanPay::Client.new(
+      partner_id: partner_id,
+      seller_id: seller_id,
+      server_url: server_url,
+      private_key: private_key,
+      public_key: public_key,
+    )
+
+    result = client.sms_pay_confirm((Time.now.to_f * 1000).to_i, 'xxx', '123456')
+
+    expect(result[:result]).to eq('F') # 因为 xxx 不存在
+  end
+
+  it '重发短信' do
+    client = ChanPay::Client.new(
+      partner_id: partner_id,
+      seller_id: seller_id,
+      server_url: server_url,
+      private_key: private_key,
+      public_key: public_key,
+    )
+
+    result = client.sms_pay_resend((Time.now.to_f * 1000).to_i, 'xxx')
+
+    expect(result[:result]).to eq('F') # 因为 xxx 不存在
   end
 end
