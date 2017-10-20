@@ -1,38 +1,62 @@
 # ChanPay
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/chan_pay`. To experiment with that code, run `bin/console` for an interactive prompt.
+用友畅捷支付 API ruby sdk，目前提供以下接口
 
-TODO: Delete this and the text above, and describe your gem
+1. 直接支付请求接口
+2. 支付确认接口
+3. 短信验证码重发接口
+4. 确认收货接口
+5. 商户余额查询
+6. 快捷代扣请求接口
 
-## Installation
+## 安装
 
-Add this line to your application's Gemfile:
+Gemfile 中增加:
 
 ```ruby
 gem 'chan_pay'
 ```
 
-And then execute:
+然后执行命令:
 
     $ bundle
 
-Or install it yourself as:
+或者直接安装:
 
     $ gem install chan_pay
 
-## Usage
+## 快速指南
 
-TODO: Write usage instructions here
+1. 初始化
 
-## Development
+```ruby
+    client = ChanPay::Client.new(
+      partner_id: partner_id,
+      seller_id: seller_id,
+      server_url: server_url,
+      private_key: private_key,
+      public_key: public_key,
+    )
+```
 
-After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake spec` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
+2. 调用各个 api，比如查询接口：
 
-To install this gem onto your local machine, run `bundle exec rake install`. To release a new version, update the version number in `version.rb`, and then run `bundle exec rake release`, which will create a git tag for the version, push git commits and tags, and push the `.gem` file to [rubygems.org](https://rubygems.org).
+```ruby
+    client.query_balance(商户自定义唯一订单号)
+```
 
 ## Contributing
 
 Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/chan_pay. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [Contributor Covenant](http://contributor-covenant.org) code of conduct.
+
+## Make a pull request
+
+1. Fork it
+2. Create your feature branch (git checkout -b my-new-feature)
+3. Commit your changes (git commit -am 'Add some feature')
+4. Push to the branch (git push origin my-new-feature)
+5. Create new Pull Request
+6. Please write unit test with your code if necessary.
 
 
 ## License
