@@ -51,7 +51,7 @@ MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDPq3oXX5aFeBQGf3Ag/86zNu0VICXmkof85r+DDL46
   it '快捷代扣失败' do
     client = ChanPay::Client.new(
       partner_id: partner_id,
-      seller_id: '200001280051',
+      seller_id: seller_id,
       server_url: server_url,
       private_key: private_key,
       public_key: public_key,
