@@ -5,12 +5,17 @@
 module ChanPay
   class Client
 
-    include ChanPay::Api::QuickPay
-    include ChanPay::Api::QueryOrder
-    include ChanPay::Api::QueryBalance
+    # 快捷支付的 api
     include ChanPay::Api::SmsPayRequest
     include ChanPay::Api::SmsPayConfirm
     include ChanPay::Api::SmsPayResend
+    include ChanPay::Api::WithholdPay
+    include ChanPay::Api::QueryOrder
+    # 代付代扣的 api
+    include ChanPay::Api::QuickDraw
+    include ChanPay::Api::QueryQuickOrder
+    # 通用 api
+    include ChanPay::Api::QueryBalance
 
     def initialize(options_arg)
       options = Utils.symbolize_keys(options_arg)

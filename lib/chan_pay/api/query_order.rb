@@ -22,13 +22,15 @@ module ChanPay
           :TradeType => 'pay_order',
         }
 
-        response = Http.post(@partner_id, @private_key, @public_key, @server_uri, SERVICE_NAME, params)
+        response = Http.post(@partner_id,
+                             @private_key, @public_key, @server_uri,
+                             SERVICE_NAME, params)
 
         res = {
           result: 'P', # 默认 pending
           msg: response[:RetMsg],
           ret_code: response[:RetCode],
-          flow_id: response[:TrxId],
+          flow_id: flow_id,
           vendor_order_id: response[:OrderTrxid],
           extension: response[:Extension],
           log: [params.to_json, response.to_json],

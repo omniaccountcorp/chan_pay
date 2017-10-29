@@ -4,7 +4,7 @@
 
 module ChanPay
   module Api
-    module QuickPay
+    module WithholdPay
 
       SERVICE_NAME = 'nmg_api_quickpay_withhold'
 
@@ -19,7 +19,7 @@ module ChanPay
       #
       # @return [Hash] 返回结果集
       #
-      def quick_pay(flow_id, card_id, identity_id, true_name, phone, money)
+      def withhold_pay(flow_id, card_id, identity_id, true_name, phone, money)
 
         params = {
           :TrxId => flow_id.to_s, # 最长 32 位唯一订单号
@@ -52,7 +52,7 @@ module ChanPay
           result: 'P', # 默认 pending
           msg: response[:RetMsg],
           ret_code: response[:RetCode],
-          flow_id: response[:TrxId],
+          flow_id: flow_id,
           vendor_order_id: response[:OrderTrxid],
           extension: response[:Extension],
           log: [params.to_json, response.to_json],
