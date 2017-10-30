@@ -19,7 +19,7 @@ describe '查询帐户余额' do
     puts "\nresult is: \n#{result.inspect}"
 
     expect(result[:result]).to eq('F')
-    expect(result[:balance]).to eq(0)
+    expect(result[:pay_balance]).to eq(0)
   end
 
   it '代付账号，成功（需要正式账号）'

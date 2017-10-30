@@ -25,6 +25,7 @@ module ChanPay
         {
           result: response[:AcceptStatus],
           balance: response[:RecBalance].to_f,
+          pay_balance: response[:PayBalance].to_f,
         }
       end
 
