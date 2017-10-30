@@ -10,7 +10,7 @@ Gem::Specification.new do |spec|
   spec.email         = ["tony@omniaccount.com"]
 
   spec.summary       = %q{"畅捷支付"}
-  spec.description   = %q{"畅捷支付"}
+  spec.description   = %q{"畅捷支付SDK"}
   spec.homepage      = "https://github.com/omniaccountcorp/chan_pay"
   spec.license       = "MIT"
 
