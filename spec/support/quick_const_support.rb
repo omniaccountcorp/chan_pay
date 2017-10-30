@@ -11,7 +11,7 @@ module QuickConstSupport
   end
 
   def quick_seller_id
-    '' # 代付代扣好像不用 seller
+    ''
   end
 
   def quick_private_key
