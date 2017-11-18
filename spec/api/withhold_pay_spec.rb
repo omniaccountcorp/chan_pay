@@ -10,7 +10,7 @@ describe '快捷代扣' do
     puts "\nresult is: \n #{result.inspect}"
 
     expect(result[:result]).to eq('F')
-    expect(result[:ret_code]).to eq('ILLEGAL_ARGUMENT')
+    # expect(result[:ret_code]).to eq('ILLEGAL_ARGUMENT')
   end
 
   it '成功（需要真正的银行卡）'

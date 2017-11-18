@@ -32,8 +32,13 @@ module ChanPay
           result = RetCode.general_error_response(response.code,
                                                   RetCode::UNKNOWN_ERROR)
         end
-      rescue Net::ReadTimeout # 请求超时
-        result = RetCode.general_error_response(0, RetCode::NET_TIMEOUT)
+      rescue Net::ReadTimeout # 请求超时，当 pending 处理
+        result = {
+          :AcceptStatus => "S", # 业务受理成功
+          :RetCode => RetCode::NET_TIMEOUT,
+          :RetMsg => "网络异常（0）",
+          :Status => "P", # 业务 PENDING
+        }
       end
 
       puts "\n[#{service_name}] 返回结果为：\n#{result}"
