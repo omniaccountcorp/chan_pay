@@ -19,12 +19,16 @@ module ChanPay
 
       private
 
-      def self.link_hash(hash)
+      def self.link_hash(hash_in)
+        hash = Marshal.load Marshal.dump(hash_in)
         hash.delete_if do |key, value|
           key == :Sign || key == :SignType || value.nil? || value == ''
         end
         values = []
         hash.sort.to_h.each{|k,v|
+          if v.kind_of?(Hash)
+            v = v.to_json
+          end
           values << "#{k}=#{v}"
         }
 
